@@ -3,20 +3,18 @@ import streamlit as st
 #from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col,when_matched
 
+#New section to display smoothiefroot nutrition information
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response)
+
+
 # Write directly to the app
 st.title(":cup_with_straw: Customize Your Smoothie :cup_with_straw:  Choose the fruits you want in your custom Smoothie!")
-#st.write(
- # """Replace this example with your own code!
-  #**And if you're new to Streamlit,** check
-  #out our easy-to-follow guides at
-  #[docs.streamlit.io](https://docs.streamlit.io).
-  #"""
-#)
 st.write("""Choose the fruits you want in your custom Smoothie!""")
 
 cnx = st.connection("snowflake")
 session = cnx.session()
-
 
 
 #option = st.selectbox("What is your favorites fruit?",
@@ -26,11 +24,7 @@ session = cnx.session()
 #title= st.text_input('Movie title','Life of Brian')
 name_on_order = st.text_input('Name on Smoothie:')
 st.write('The name on your Smoothie will be:',name_on_order)
-#st.write('The current movie title is',title)
 
-#order_filled=st.text_input('Filled')
-
-#session = get_active_session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 #st.dataframe(data=my_dataframe, use_container_width=True)
 
